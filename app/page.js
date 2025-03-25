@@ -1,9 +1,28 @@
+"use client";
+import { useState } from "react";
 import ClientInfo from "./components/ClientInfo";
 import Sidebar from "./components/Sidebar";
 import StepBox from "./components/StepBox";
 import Topbar from "./components/Topbar";
+import Services from "./components/Services";
+import Review from "./components/Review";
 
 export default function Home() {
+  const [step, setStep] = useState(1);
+
+  const renderStep = (step) => {
+    switch (step) {
+      case 1:
+        return <ClientInfo setStep={setStep} />;
+      case 2:
+        return <Services setStep={setStep} />;
+      case 3:
+        return <Review setStep={setStep} />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="flex h-screen w-screen">
       <Sidebar />
@@ -16,12 +35,11 @@ export default function Home() {
             background: `linear-gradient(180deg, rgba(46,127,241,0.3) 0%, rgba(15,15,15,1) 15%, rgba(15,15,15,1) 100%)`,
           }}
         >
-          <p className="text-[30px] font-bold mb-5">Client Information</p>
           <div className="overflow-hidden h-full flex gap-4">
             <div className="overflow-auto h-full flex-1">
-              <ClientInfo />
+              {renderStep(step)}
             </div>
-            <StepBox />
+            <StepBox step={step} />
           </div>
         </div>
       </div>

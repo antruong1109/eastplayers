@@ -1,6 +1,49 @@
 import Image from "next/image";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 
+const menuSidebar = [
+  {
+    name: "Proposals",
+    logo: "/proposals.svg",
+    active: false,
+  },
+  {
+    name: "Services",
+    logo: "/car.svg",
+    active: false,
+  },
+  {
+    name: "Vehicle Rules",
+    logo: "/dollar.svg",
+    active: false,
+  },
+  {
+    name: "Appointments",
+    logo: "/calendar.svg",
+    active: true,
+  },
+  {
+    name: "Inventory",
+    logo: "/package.svg",
+    active: false,
+  },
+  {
+    name: "Contacts",
+    logo: "/user.svg",
+    active: false,
+  },
+  {
+    name: "Transactions",
+    logo: "/money.svg",
+    active: false,
+  },
+  {
+    name: "Invoices",
+    logo: "/newspaper.svg",
+    active: false,
+  },
+];
+
 export const Sidebar = ({}) => {
   return (
     <div className="h-screen w-50 bg-[#0F0F0F] border-r border-r-[#212226] flex flex-col">
@@ -14,7 +57,34 @@ export const Sidebar = ({}) => {
           className="cursor-pointer"
         />
       </div>
-      <div className="flex-1 border-b border-[#212226]"></div>
+      <div className="flex-1 border-b border-[#212226] py-4">
+        {menuSidebar.map((item) => {
+          return (
+            <div
+              className={`${
+                item.active &&
+                "!bg-[rgba(46,127,241,0.1)] !border-r-2 !border-r-[#2E7FF1]"
+              } flex cursor-pointer items-center h-10 px-4 py-[10px] gap-[10px] hover:bg-[rgba(46,127,241,0.1)] group hover:border-r-2 hover:border-r-[#2E7FF1]`}
+              key={item.name}
+            >
+              <Image
+                src={item.logo}
+                alt="logo"
+                width={20}
+                height={20}
+                priority
+              />
+              <p
+                className={`${
+                  item.active && "!text-[#2E7FF1]"
+                } group-hover:text-[#2E7FF1] text-sm`}
+              >
+                {item.name}
+              </p>
+            </div>
+          );
+        })}
+      </div>
       <div className="h-15 p-4 relative">
         <div className="inline-flex items-center rounded-[14px] bg-[#2F323E] cursor-pointer">
           <div className="rounded-full bg-pink-200 flex justify-center items-center overflow-hidden w-7 h-7">

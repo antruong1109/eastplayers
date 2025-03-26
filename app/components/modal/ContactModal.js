@@ -1,6 +1,6 @@
 import Popup from "reactjs-popup";
 import Button from "../form/Button";
-import { IoMdClose, IoMdCheckmark } from "react-icons/io";
+import { IoMdClose } from "react-icons/io";
 import { FiPlus, FiSearch } from "react-icons/fi";
 import { useState } from "react";
 import {
@@ -60,7 +60,7 @@ const columns = [
     header: () => "Action",
     cell: () => (
       <div>
-        <CheckBox />
+        <CheckBox onChange={() => console.log("")} />
       </div>
     ),
   }),
@@ -80,7 +80,6 @@ export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
     <Popup
       modal
       open={isOpen}
-      // open={true}
       onClose={() => setIsOpen(false)}
       contentStyle={{
         marginRight: 0,

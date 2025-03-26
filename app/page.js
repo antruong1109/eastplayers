@@ -8,7 +8,7 @@ import Services from "./components/Services";
 import Review from "./components/Review";
 
 export default function Home() {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(2);
 
   const renderStep = (step) => {
     switch (step) {

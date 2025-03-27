@@ -68,7 +68,6 @@ const columns = [
 
 export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
   const [data, setData] = useState(() => [...defaultData]);
-  console.log("🚀 ~ ContactModal ~ data:", data);
 
   const table = useReactTable({
     data,

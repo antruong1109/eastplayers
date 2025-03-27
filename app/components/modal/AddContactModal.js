@@ -2,13 +2,30 @@ import Popup from "reactjs-popup";
 import Button from "../form/Button";
 import { IoMdClose } from "react-icons/io";
 import InputField from "../form/InputField";
+import { useForm } from "react-hook-form";
 
 export const AddContactModal = ({ isOpen, setIsOpen }) => {
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    getValues,
+  } = useForm();
+
+  const valueEmail = getValues("email");
+  const valuePhone = getValues("phoneNumber");
+  const valueAdditionalPhone = getValues("additionalPhoneNumber");
+
+  const onSubmit = handleSubmit((data) => {
+    console.log("🚀 ~ onSubmit ~ data:", data);
+  });
+
   return (
     <Popup
       modal
       open={isOpen}
-      // open={true}
       onClose={() => setIsOpen(false)}
       contentStyle={{
         marginRight: 0,
@@ -31,24 +48,77 @@ export const AddContactModal = ({ isOpen, setIsOpen }) => {
         <p className="text-sm mb-4">
           Please enter at least one field: email or phone number.
         </p>
-        <div className="flex flex-col gap-4">
-          <InputField label="Name" placeholder="Name" required />
-          <InputField label="Email" placeholder="Email" />
-          <InputField label="Phone Number" placeholder="Phone number" />
-          <InputField
-            label="Additional Phone Number"
-            placeholder="Phone number"
-          />
-          <InputField label="Note" placeholder="Enter" />
-          <div className="flex justify-between items-center mt-4">
-            <Button
-              label="Cancel"
-              variant="outlined"
-              onClick={() => setIsOpen(false)}
+        <form onSubmit={onSubmit}>
+          <div className="flex flex-col gap-4">
+            <InputField
+              label="Name"
+              placeholder="Name"
+              required
+              register={{
+                ...register("name", { required: true }),
+              }}
+              error={
+                errors.name &&
+                errors.name.type === "required" &&
+                "This is required"
+              }
             />
-            <Button label="Save" />
+            <InputField
+              label="Email"
+              placeholder="Email"
+              register={{
+                ...register("email", { required: false }),
+              }}
+              error={
+                valueEmail == "" &&
+                valuePhone == "" &&
+                valueAdditionalPhone == "" &&
+                "Please enter at least one field: email or phone number."
+              }
+            />
+            <InputField
+              label="Phone Number"
+              placeholder="Phone number"
+              register={{
+                ...register("phoneNumber", { required: false }),
+              }}
+              error={
+                valueEmail == "" &&
+                valuePhone == "" &&
+                valueAdditionalPhone == "" &&
+                "Please enter at least one field: email or phone number."
+              }
+            />
+            <InputField
+              label="Additional Phone Number"
+              placeholder="Phone number"
+              register={{
+                ...register("additionalPhoneNumber", { required: false }),
+              }}
+              error={
+                valueEmail == "" &&
+                valuePhone == "" &&
+                valueAdditionalPhone == "" &&
+                "Please enter at least one field: email or phone number."
+              }
+            />
+            <InputField
+              label="Note"
+              placeholder="Enter"
+              register={{
+                ...register("note", { required: false }),
+              }}
+            />
+            <div className="flex justify-between items-center mt-4">
+              <Button
+                label="Cancel"
+                variant="outlined"
+                onClick={() => setIsOpen(false)}
+              />
+              <Button label="Save" onClick={() => onSubmit()} />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </Popup>
   );

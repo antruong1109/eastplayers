@@ -7,6 +7,9 @@ import { fetchAuth } from "@/lib/features/authSlice";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import { IoIosCheckmarkCircle, IoMdClose } from "react-icons/io";
+import ProfileCard from "../components/appointmentDetail/ProfileCard";
+import PaymentCard from "../components/appointmentDetail/PaymentCard";
+import WorkOrderCard from "../components/appointmentDetail/WorkOrderCard";
 
 if (
   process.env.NODE_ENV === "development" ||
@@ -17,7 +20,7 @@ if (
 
 export default function Detail() {
   const Msg = ({ closeToast, toastProps }) => (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2">
       <IoIosCheckmarkCircle size={32} color="#FFFFFF" />
       <p className="text-xs font-bold text-white">
         Create Appointment and send successfully
@@ -35,6 +38,7 @@ export default function Detail() {
   useEffect(() => {
     dispatch(fetchAuth());
     toast(Msg, {
+      autoClose: 5000,
       customProgressBar: true,
       closeButton: false,
     });
@@ -52,7 +56,13 @@ export default function Detail() {
             background: `linear-gradient(180deg, rgba(46,127,241,0.3) 0%, rgba(15,15,15,1) 15%, rgba(15,15,15,1) 100%)`,
           }}
         >
-          <div className="overflow-hidden h-full flex gap-4">detail</div>
+          <div className="overflow-auto h-full">
+            <ProfileCard />
+            <div className="flex gap-4 mt-4">
+              <PaymentCard />
+              <WorkOrderCard />
+            </div>
+          </div>
         </div>
       </div>
       <ToastContainer toastClassName={"!bg-[#00976F] !rounded-[16px]"} />

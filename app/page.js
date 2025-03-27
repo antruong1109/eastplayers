@@ -10,7 +10,10 @@ import { makeServer } from "./mirageServer";
 import { fetchAuth } from "@/lib/features/authSlice";
 import { useSelector, useDispatch } from "react-redux";
 
-if (process.env.NODE_ENV === "development") {
+if (
+  process.env.NODE_ENV === "development" ||
+  process.env.NODE_ENV === "production"
+) {
   makeServer();
 }
 

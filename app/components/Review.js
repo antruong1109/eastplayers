@@ -15,9 +15,9 @@ export const Review = () => {
   };
 
   return (
-    <div>
+    <div className="h-full overflow-hidden flex flex-col">
       <p className="text-[30px] font-bold mb-5">Review & Send</p>
-      <div className="flex flex-col gap-4">
+      <div className="flex-1 flex flex-col gap-4 overflow-auto">
         <ClientInfoBox checkPrevStep={checkPrevStep} />
         <AppointmentSchedule />
         <ServicesBox

@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import ClientInfo from "./components/ClientInfo";
 import Sidebar from "./components/Sidebar";
 import StepBox from "./components/StepBox";
@@ -41,7 +41,7 @@ export default function Home() {
     <div className="flex h-screen w-screen">
       <Sidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Topbar />
+        <Topbar label="Create appointment" />
         <div
           className="flex-1 overflow-hidden py-6 px-5"
           style={{

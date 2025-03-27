@@ -101,7 +101,7 @@ export const ClientInfo = () => {
                 : `Can't find a vehicle? Enter it manually.`}
             </p>
             <div className="mr-0 ml-auto">
-              <Button label="Next" onClick={() => checkNextStep()} />
+              <Button label="Next" onClick={() => onSubmit()} />
             </div>
           </div>
         </form>

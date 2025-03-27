@@ -1,23 +1,34 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ClientInfo from "./components/ClientInfo";
 import Sidebar from "./components/Sidebar";
 import StepBox from "./components/StepBox";
 import Topbar from "./components/Topbar";
 import Services from "./components/Services";
 import Review from "./components/Review";
+import { makeServer } from "./mirageServer";
+import { fetchAuth } from "@/lib/features/authSlice";
+import { useSelector, useDispatch } from "react-redux";
+
+if (process.env.NODE_ENV === "development") {
+  makeServer();
+}
 
 export default function Home() {
-  const [step, setStep] = useState(2);
+  const { step } = useSelector((state) => state.createAppointment);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchAuth());
+  }, [dispatch]);
 
   const renderStep = (step) => {
     switch (step) {
       case 1:
-        return <ClientInfo setStep={setStep} />;
+        return <ClientInfo />;
       case 2:
-        return <Services setStep={setStep} />;
+        return <Services />;
       case 3:
-        return <Review setStep={setStep} />;
+        return <Review />;
       default:
         return null;
     }

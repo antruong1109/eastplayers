@@ -7,14 +7,17 @@ import ContactModal from "./modal/ContactModal";
 import SelectBox from "./form/SelectBox";
 import Button from "./form/Button";
 import InputField from "./form/InputField";
+import { nextStep } from "@/lib/features/appointment/createAppointmentSlice";
+import { useDispatch } from "react-redux";
 
-export const ClientInfo = ({ setStep }) => {
+export const ClientInfo = () => {
   const [isOpenAddContactModal, setIsOpenAddContactModal] = useState(false);
   const [isOpenContactModal, setIsOpenContactModal] = useState(false);
   const [isManualVehicle, setIsManualVehicle] = useState(false);
+  const dispatch = useDispatch();
 
   const checkNextStep = () => {
-    setStep(2);
+    dispatch(nextStep());
   };
 
   const {

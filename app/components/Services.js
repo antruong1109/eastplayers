@@ -10,6 +10,11 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import {
+  prevStep,
+  nextStep,
+} from "@/lib/features/appointment/createAppointmentSlice";
+import { useDispatch } from "react-redux";
 
 const columnHelper = createColumnHelper();
 
@@ -43,16 +48,17 @@ const columns = [
   }),
 ];
 
-export const Services = ({ setStep }) => {
+export const Services = () => {
   const [isOpenAddPackageModal, setIsOpenAddPackageModal] = useState(false);
   const [selectedPackages, setSelectedPackages] = useState([]);
+  const dispatch = useDispatch();
 
   const checkNextStep = () => {
-    setStep(3);
+    dispatch(nextStep());
   };
 
   const checkPrevStep = () => {
-    setStep(1);
+    dispatch(prevStep());
   };
 
   const table = useReactTable({

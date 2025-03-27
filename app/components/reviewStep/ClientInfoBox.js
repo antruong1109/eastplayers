@@ -1,6 +1,6 @@
 import { GoPencil } from "react-icons/go";
 
-export const ClientInfoBox = () => {
+export const ClientInfoBox = ({ checkPrevStep }) => {
   return (
     <div className="w-full bg-[#18181B] rounded-xl p-4 relative">
       <div className="flex justify-between items-center mb-6">

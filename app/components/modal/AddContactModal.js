@@ -20,6 +20,7 @@ export const AddContactModal = ({ isOpen, setIsOpen }) => {
 
   const onSubmit = handleSubmit((data) => {
     console.log("🚀 ~ onSubmit ~ data:", data);
+    setIsOpen(false);
   });
 
   return (

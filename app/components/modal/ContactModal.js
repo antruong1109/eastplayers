@@ -13,26 +13,31 @@ import CheckBox from "../form/CheckBox";
 
 const defaultData = [
   {
+    id: "1",
     name: "Client name",
     email: "abc@gmail.com",
     phone: "(+1) 561-555-7689",
   },
   {
+    id: "2",
     name: "Client name",
     email: "abc@gmail.com",
     phone: "(+1) 561-555-7689",
   },
   {
+    id: "3",
     name: "Client name",
     email: "abc@gmail.com",
     phone: "(+1) 561-555-7689",
   },
   {
+    id: "4",
     name: "Client name",
     email: "abc@gmail.com",
     phone: "(+1) 561-555-7689",
   },
   {
+    id: "5",
     name: "Client name",
     email: "abc@gmail.com",
     phone: "(+1) 561-555-7689",
@@ -56,17 +61,23 @@ const columns = [
     header: () => "Phone",
     cell: (info) => info.renderValue(),
   }),
-  columnHelper.accessor("action", {
-    header: () => "Action",
-    cell: () => (
-      <div>
-        <CheckBox onChange={() => console.log("")} />
-      </div>
-    ),
-  }),
+  // columnHelper.accessor("action", {
+  //   header: () => "Action",
+  //   cell: () => (
+  //     <div>
+  //       <CheckBox onChange={() => console.log("")} />
+  //     </div>
+  //   ),
+  // }),
 ];
 
-export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
+export const ContactModal = ({
+  isOpen,
+  setIsOpen,
+  setAddContactModal,
+  setValueContact,
+  valueContact,
+}) => {
   const [data, setData] = useState(() => [...defaultData]);
 
   const table = useReactTable({
@@ -74,6 +85,17 @@ export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const handleRowClick = (row) => {
+    setValueContact((prev) => {
+      const exists = prev.some(
+        (valueContact) => valueContact.id === row.original.id
+      );
+      return exists
+        ? prev.filter((valueContact) => valueContact.id !== row.original.id)
+        : [...prev, row.original];
+    });
+  };
 
   return (
     <Popup
@@ -139,12 +161,17 @@ export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
                           )}
                     </th>
                   ))}
+                  <th>Action</th>
                 </tr>
               ))}
             </thead>
             <tbody>
               {table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="h-15 border-b border-b-[#2F323E]">
+                <tr
+                  onClick={() => handleRowClick(row)}
+                  key={row.id}
+                  className="h-15 border-b border-b-[#2F323E]"
+                >
                   {row.getVisibleCells().map((cell) => (
                     <td key={cell.id}>
                       {flexRender(
@@ -153,6 +180,14 @@ export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
                       )}
                     </td>
                   ))}
+                  <td>
+                    <CheckBox
+                      onChange={() => handleRowClick(row)}
+                      isCheck={valueContact.some(
+                        (u) => u.id === row.original.id
+                      )}
+                    />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -162,9 +197,12 @@ export const ContactModal = ({ isOpen, setIsOpen, setAddContactModal }) => {
           <Button
             label="Cancel"
             variant="outlined"
-            onClick={() => setIsOpen(false)}
+            onClick={() => {
+              setValueContact([]);
+              setIsOpen(false);
+            }}
           />
-          <Button label="Select" />
+          <Button label="Select" onClick={() => setIsOpen(false)} />
         </div>
       </div>
     </Popup>

@@ -11,6 +11,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { isEmpty } from "lodash";
 
 const categoryService = [
   "All",
@@ -101,6 +102,7 @@ export const AddPackageModal = ({
   setIsOpen,
   selectedPackages,
   setSelectedPackages,
+  setIsErrorSelectPackage,
 }) => {
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [data, setData] = useState(() => [...defaultData]);
@@ -112,6 +114,7 @@ export const AddPackageModal = ({
   });
 
   const handleRowClick = (row) => {
+    setIsErrorSelectPackage(false);
     setSelectedPackages((prev) => {
       const exists = prev.some(
         (packageSelected) => packageSelected.id === row.original.id

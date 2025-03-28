@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoIosArrowDown } from "react-icons/io";
 import { FiSearch } from "react-icons/fi";
 
@@ -15,12 +15,21 @@ const optionData = [
   "Option 10",
 ];
 
-export const SelectBox = ({ label, required, placeholder }) => {
+export const SelectBox = ({
+  label,
+  required,
+  placeholder,
+  register,
+  error,
+  setValue,
+  name,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [optionSelect, setOptionSelect] = useState("");
 
   const onSelect = (option) => {
     setOptionSelect(option);
+    setValue(name, option, { shouldValidate: true });
     setIsOpen(false);
   };
 
@@ -29,21 +38,27 @@ export const SelectBox = ({ label, required, placeholder }) => {
       <label className="text-sm font-bold mb-2">
         {label} {required && <span className="text-[#F64D3C]">*</span>}
       </label>
-      <div className="relative">
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex text-sm justify-between items-center flex-1 h-12 rounded-lg bg-[#2F323E] px-4 cursor-pointer"
-        >
-          {optionSelect !== "" ? (
-            <p>{optionSelect}</p>
-          ) : (
-            <p className="text-[#7F859F]">Select</p>
-          )}
-
-          <IoIosArrowDown size={20} color="7F859F" />
-        </div>
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative cursor-pointer"
+      >
+        <input
+          type="text"
+          className="h-12 w-full rounded-lg bg-[#2F323E] px-4 text-sm border-none outline-none"
+          placeholder="Select"
+          {...register}
+          value={optionSelect}
+          disabled
+        />
+        <div className="h-12 w-full bg-transparent absolute top-0 left-0 z-[1]"></div>
+        <IoIosArrowDown
+          className="absolute right-4 top-4"
+          size={20}
+          color="7F859F"
+        />
+        {error && <p className="text-[#F64D3C] text-sm mt-1">{error}</p>}
         {isOpen && (
-          <div className="absolute z-[1] top-14 left-0 w-full max-w-100 h-80 rounded-xl bg-[#18181B] border border-[#2F323E] p-4 overflow-hidden flex flex-col">
+          <div className="absolute z-[2] top-14 left-0 w-full max-w-100 h-80 rounded-xl bg-[#18181B] border border-[#2F323E] p-4 overflow-hidden flex flex-col">
             <div className="relative mb-4 w-full">
               <input
                 type="text"

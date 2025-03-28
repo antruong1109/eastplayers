@@ -4,6 +4,7 @@ import Button from "./form/Button";
 import { IoIosArrowDown } from "react-icons/io";
 import AddPackageModal from "./modal/AddPackageModal";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { isEmpty } from "lodash";
 import {
   createColumnHelper,
   flexRender,
@@ -51,6 +52,7 @@ const columns = [
 export const Services = () => {
   const [isOpenAddPackageModal, setIsOpenAddPackageModal] = useState(false);
   const [selectedPackages, setSelectedPackages] = useState([]);
+  const [isErrorSelectPackage, setIsErrorSelectPackage] = useState(false);
   const dispatch = useDispatch();
 
   const checkNextStep = () => {
@@ -66,6 +68,14 @@ export const Services = () => {
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
+
+  const onSubmitForm = () => {
+    if (isEmpty(selectedPackages)) {
+      setIsErrorSelectPackage(true);
+    } else {
+      checkNextStep();
+    }
+  };
 
   const renderPackageSelected = useCallback(() => {
     if (selectedPackages?.length !== 0) {
@@ -138,15 +148,21 @@ export const Services = () => {
             <p className="text-sm font-bold mb-2">
               Add Packages <span className="text-[#F64D3C]">*</span>
             </p>
-            <div className="flex justify-between items-center gap-2 mb-8">
-              <div
-                onClick={() => setIsOpenAddPackageModal(true)}
-                className="flex justify-between items-center flex-1 h-12 rounded-lg bg-[#2F323E] px-4 cursor-pointer"
-              >
-                <p className="text-[#7F859F]">Select</p>
-                <IoIosArrowDown size={20} color="7F859F" />
+            <div className="mb-8">
+              <div className="flex justify-between items-center gap-2">
+                <div
+                  onClick={() => setIsOpenAddPackageModal(true)}
+                  className="flex justify-between items-center flex-1 h-12 rounded-lg bg-[#2F323E] px-4 cursor-pointer"
+                >
+                  <p className="text-[#7F859F]">Select</p>
+                  <IoIosArrowDown size={20} color="7F859F" />
+                </div>
               </div>
+              {isErrorSelectPackage && (
+                <p className="text-[#F64D3C] text-sm mt-1">This is required</p>
+              )}
             </div>
+
             {renderPackageSelected()}
             <div className="flex justify-between items-center mt-8">
               <Button
@@ -154,7 +170,7 @@ export const Services = () => {
                 variant="outlined"
                 onClick={() => checkPrevStep()}
               />
-              <Button label="Next" onClick={() => checkNextStep()} />
+              <Button label="Next" onClick={() => onSubmitForm()} />
             </div>
           </div>
         </form>
@@ -164,6 +180,7 @@ export const Services = () => {
         setIsOpen={setIsOpenAddPackageModal}
         selectedPackages={selectedPackages}
         setSelectedPackages={setSelectedPackages}
+        setIsErrorSelectPackage={setIsErrorSelectPackage}
       />
     </div>
   );
